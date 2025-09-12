@@ -1,0 +1,27 @@
+{
+  "name": "wordpress-boilerplate",
+  "version": "1.0.0",
+  "description": "A clean boilerplate for classic WordPress theme development with Tailwind CSS.",
+  "author": "Your Name",
+  "license": "GPL-2.0-or-later",
+  "scripts": {
+    "build:css": "npx tailwindcss -i ./src/css/tailwind.css -o ./assets/css/main.css --minify",
+    "watch:css": "npx tailwindcss -i ./src/css/tailwind.css -o ./assets/css/main.css --watch",
+    "build:js": "npx esbuild src/js/main.js --bundle --outfile=assets/js/main.js --minify",
+    "watch:js": "npx esbuild src/js/main.js --bundle --outfile=assets/js/main.js --watch",
+    "build": "npm run build:css && npm run build:js",
+    "watch": "npm run watch:css & npm run watch:js"
+  },
+  "devDependencies": {
+    "@tailwindcss/forms": "^0.5.10",
+    "@tailwindcss/line-clamp": "^0.4.4",
+    "@tailwindcss/typography": "^0.5.16",
+    "daisyui": "^5.1.10",
+    "esbuild": "^0.25.9",
+    "tailwindcss": "^4.1.13",
+    "tailwindcss-animate": "^1.0.7"
+  },
+  "dependencies": {
+    "@tailwindcss/cli": "^4.1.13"
+  }
+}
