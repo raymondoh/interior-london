@@ -1,142 +1,123 @@
-/* Tailwind core */
 @import "tailwindcss";
 
-/* -----------------------------
-   Base: sensible defaults
------------------------------ */
+/* ----- Design tokens / fonts ----- */
+:root {
+  --font-geist-sans: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial, "Noto Sans",
+    "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+  --font-geist-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+}
+
+/* Base */
 @layer base {
-  html {
-    scroll-behavior: smooth;
-  }
   body {
-    @apply antialiased text-gray-800 bg-white;
-  }
-
-  /* Typography */
-  h1,
-  h2,
-  h3,
-  h4,
-  h5,
-  h6 {
-    @apply font-semibold text-gray-900;
-  }
-  h1 {
-    @apply text-4xl md:text-5xl leading-tight;
-  }
-  h2 {
-    @apply text-3xl md:text-4xl leading-snug;
-  }
-  h3 {
-    @apply text-2xl md:text-3xl;
-  }
-
-  p {
-    @apply leading-relaxed;
-  }
-  a {
-    @apply underline underline-offset-4 decoration-gray-300 hover:decoration-gray-500;
-  }
-
-  /* Media */
-  img,
-  video,
-  canvas,
-  svg {
-    @apply max-w-full h-auto;
-  }
-
-  /* Accessible focus */
-  :focus-visible {
-    @apply outline-none ring-2 ring-offset-2 ring-blue-500 ring-offset-white;
-  }
-  @media (prefers-reduced-motion: reduce) {
-    * {
-      animation-duration: 0.001ms !important;
-      animation-iteration-count: 1 !important;
-      transition-duration: 0.001ms !important;
-    }
+    @apply antialiased bg-white text-gray-800;
   }
 }
 
-/* -----------------------------
-   Components: tiny, reusable
------------------------------ */
+/* Components (your helpers from the stylesheet you shared) */
 @layer components {
-  /* Layout helpers */
-  .container {
-    @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8;
+  .font-sans {
+    font-family: var(--font-geist-sans);
   }
-  .section {
-    @apply py-12 sm:py-16 lg:py-24;
-  }
-
-  /* Card */
-  .card {
-    @apply bg-white rounded-xl shadow-sm ring-1 ring-gray-100 overflow-hidden;
-  }
-  .card-body {
-    @apply p-6;
-  }
-  .card-title {
-    @apply text-xl font-semibold text-gray-900;
+  .font-mono {
+    font-family: var(--font-geist-mono);
   }
 
-  /* Buttons */
-  .btn {
-    @apply inline-flex items-center gap-2 rounded-md px-4 py-2 text-sm font-medium transition-colors focus-visible:ring-2 focus-visible:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none;
+  .heading-hero {
+    font-family: var(--font-geist-sans);
+    font-size: 3.75rem;
+    font-weight: 300;
+    line-height: 1.1;
+    letter-spacing: -0.025em;
   }
-  .btn-primary {
-    @apply bg-gray-900 text-white hover:bg-gray-800;
+  .heading-xl {
+    font-family: var(--font-geist-sans);
+    font-size: 2.25rem;
+    font-weight: 300;
+    line-height: 1.2;
   }
-  .btn-secondary {
-    @apply bg-gray-100 text-gray-900 hover:bg-gray-200;
+  .heading-lg {
+    font-family: var(--font-geist-sans);
+    font-size: 1.875rem;
+    font-weight: 300;
+    line-height: 1.3;
   }
-  .btn-ghost {
-    @apply bg-transparent text-gray-900 hover:bg-gray-100;
-  }
-
-  /* Badges */
-  .badge {
-    @apply inline-flex items-center rounded-full px-2.5 py-1 text-xs font-medium bg-gray-100 text-gray-800;
-  }
-
-  /* Forms (lightweight, works without @tailwindcss/forms) */
-  .form-label {
-    @apply block text-sm font-medium text-gray-700 mb-1;
-  }
-  .form-input,
-  .form-textarea,
-  .form-select {
-    @apply w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-sm text-gray-900 shadow-sm placeholder:text-gray-400 focus:border-blue-500 focus:ring-2 focus:ring-blue-500 focus:ring-offset-0;
-  }
-  .form-textarea {
-    @apply min-h-[120px];
-  }
-  .form-help {
-    @apply mt-1 text-xs text-gray-500;
+  .heading-md {
+    font-family: var(--font-geist-sans);
+    font-size: 1.5rem;
+    font-weight: 400;
+    line-height: 1.4;
   }
 
-  /* Nav link (nice for mobile menus) */
+  .body-lg {
+    font-family: var(--font-geist-sans);
+    font-size: 1.125rem;
+    font-weight: 300;
+    line-height: 1.6;
+  }
+  .body-base {
+    font-family: var(--font-geist-sans);
+    font-size: 1rem;
+    font-weight: 300;
+    line-height: 1.5;
+  }
+  .body-sm {
+    font-family: var(--font-geist-sans);
+    font-size: 0.875rem;
+    font-weight: 300;
+    line-height: 1.4;
+  }
+
   .nav-link {
-    @apply block rounded-md px-3 py-2 text-sm font-medium text-gray-800 hover:bg-gray-100;
+    font-family: var(--font-geist-sans);
+    font-size: 0.875rem;
+    font-weight: 300;
+    letter-spacing: 0.025em;
+    text-transform: capitalize;
+  }
+  .button-text {
+    font-family: var(--font-geist-sans);
+    font-size: 0.875rem;
+    font-weight: 400;
+    letter-spacing: 0.025em;
+  }
+
+  .caption {
+    font-family: var(--font-geist-sans);
+    font-size: 0.75rem;
+    font-weight: 400;
+    line-height: 1.3;
+    color: oklch(0.556 0 0);
+  }
+
+  /* Small helper */
+  .container {
+    @apply max-w-7xl mx-auto px-6 lg:px-12;
   }
 }
 
-/* -----------------------------
-   Utilities: tiny single-purpose
------------------------------ */
+/* Utilities for the hero controls */
 @layer utilities {
-  .text-balance {
-    text-wrap: balance;
-  } /* better headings wrapping */
-  .text-pretty {
-    text-wrap: pretty;
-  } /* nicer rag for paragraphs */
-  .screen-reader-text {
-    @apply sr-only;
-  } /* WP alias */
-  .shadow-hover {
-    @apply transition-shadow hover:shadow-lg;
+  .hero-dot-active {
+    transform: scale(1.2);
+    background-color: rgba(255, 255, 255, 1);
+  }
+  .hero-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 9999px;
+    background-color: rgba(255, 255, 255, 0.6);
+  }
+}
+@layer components {
+  /* Desktop menu items get underline when active text-gray-900 */
+  .menu .current-menu-item > a > .nav-link,
+  .menu .current_page_item > a > .nav-link {
+    @apply border-b-2 border-gray-900 pb-1;
+  }
+
+  /* Default desktop link style */
+  .nav-link {
+    @apply font-light tracking-wide text-gray-600 hover:text-gray-900;
   }
 }

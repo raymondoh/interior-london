@@ -4,8 +4,11 @@ export default {
 
   // v5: use a flat 'extend' block instead of theme:{extend:{}}
   extend: {
-    // put custom tokens here later, e.g.:
-    // colors: { brand: "#111827" },
+    // You can extend your theme here if needed
+    fontFamily: {
+      sans: ["var(--font-geist-sans)", "ui-sans-serif", "system-ui"],
+      mono: ["var(--font-geist-mono)", "ui-monospace"]
+    }
   },
 
   plugins: [

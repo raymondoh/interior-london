@@ -27,6 +27,7 @@ function boilerplate_setup() {
 
     // Enable featured images.
     add_theme_support( 'post-thumbnails' );
+    add_image_size('project-card', 960, 720, true);
 
     // Register navigation menus.
     register_nav_menus( array(
@@ -46,11 +47,15 @@ function boilerplate_setup() {
 
     // Support custom logo.
     add_theme_support( 'custom-logo', array(
-        'height'      => 200,
+        'height'      => 64,
         'width'       => 200,
         'flex-width'  => true,
         'flex-height' => true,
     ) );
+    // Menus
+  register_nav_menus([
+    'primary' => __('Primary Menu', 'interior'),
+  ]);
 
     // Add responsive embeds.
     add_theme_support( 'responsive-embeds' );

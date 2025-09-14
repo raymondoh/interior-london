@@ -2,56 +2,52 @@
 /**
  * Enqueue theme styles and scripts
  *
- * @package WordPress_Boilerplate
+ * @package Interior_Theme
  */
 
-// Exit if accessed directly.
-if ( ! defined( 'ABSPATH' ) ) {
-    exit;
-}
+if ( ! defined( 'ABSPATH' ) ) exit;
 
 /**
- * Enqueue styles and scripts.
+ * Core assets: Tailwind CSS + esbuild JS bundle
  */
-function boilerplate_enqueue_assets() {
-    $theme_dir = get_template_directory();
-    $theme_uri = get_template_directory_uri();
+function interior_enqueue_assets() {
+    $dir = get_template_directory();
+    $uri = get_template_directory_uri();
 
-    // CSS (compiled Tailwind build).
+    // CSS (Tailwind build)
     $css_rel = '/assets/css/main.css';
-    if ( file_exists( $theme_dir . $css_rel ) ) {
+    if ( file_exists( $dir . $css_rel ) ) {
         wp_enqueue_style(
-            'boilerplate-main-style',
-            $theme_uri . $css_rel,
+            'interior-main-style',
+            $uri . $css_rel,
             array(),
-            filemtime( $theme_dir . $css_rel )
+            filemtime( $dir . $css_rel )
         );
     }
 
-    // JS (compiled bundle).
+    // JS (esbuild bundle)
     $js_rel = '/assets/js/main.js';
-    if ( file_exists( $theme_dir . $js_rel ) ) {
+    if ( file_exists( $dir . $js_rel ) ) {
         wp_enqueue_script(
-            'boilerplate-main-js',
-            $theme_uri . $js_rel,
+            'interior-main',                 // single canonical handle
+            $uri . $js_rel,
             array(),
-            filemtime( $theme_dir . $js_rel ),
-            true // load in footer
+            filemtime( $dir . $js_rel ),
+            true
         );
     }
 }
-add_action( 'wp_enqueue_scripts', 'boilerplate_enqueue_assets' );
+add_action( 'wp_enqueue_scripts', 'interior_enqueue_assets', 20 );
 
 /**
- * Optional: enqueue module scripts if toggled in functions.php
- * Example: $BP_MODULES['alpine'] = true;
+ * Optional modules (toggle via $BP_MODULES in functions.php)
+ * Example:
+ *   $BP_MODULES = ['alpine' => false, 'fancybox' => true, 'swiper' => false];
+ *   $GLOBALS['BP_MODULES'] = $BP_MODULES;
  */
-function boilerplate_enqueue_modules() {
+function interior_enqueue_modules() {
     global $BP_MODULES;
-
-    if ( ! is_array( $BP_MODULES ) ) {
-        return;
-    }
+    if ( empty( $BP_MODULES ) || ! is_array( $BP_MODULES ) ) return;
 
     // Alpine.js
     if ( ! empty( $BP_MODULES['alpine'] ) ) {
@@ -85,17 +81,52 @@ function boilerplate_enqueue_modules() {
     if ( ! empty( $BP_MODULES['swiper'] ) ) {
         wp_enqueue_style(
             'swiper-css',
-            'https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.css',
+            'https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css',
             array(),
-            '10.0.0'
+            '11'
         );
         wp_enqueue_script(
             'swiper-js',
-            'https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js',
+            'https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js',
             array(),
-            '10.0.0',
+            '11',
             true
         );
     }
 }
-add_action( 'wp_enqueue_scripts', 'boilerplate_enqueue_modules', 20 );
+add_action( 'wp_enqueue_scripts', 'interior_enqueue_modules', 30 );
+
+/**
+ * Inject archive config for Load More (before main.js)
+ */
+add_action( 'wp_enqueue_scripts', function () {
+    if ( ! ( is_post_type_archive( 'project' ) || is_tax( 'project_category' ) ) ) {
+        return;
+    }
+
+    // Build context for the script
+    $term         = is_tax( 'project_category' ) ? get_queried_object() : null;
+    $term_id      = $term ? (int) $term->term_id : 0;
+    $year         = isset( $_GET['year'] ) ? sanitize_text_field( $_GET['year'] ) : 'all';
+    $view         = ( isset( $_GET['view'] ) && $_GET['view'] === 'list' ) ? 'list' : 'grid';
+    $featured_ids = $GLOBALS['interior_featured_ids'] ?? [];
+
+    $config = array(
+        'ajax_url' => admin_url( 'admin-ajax.php' ),
+        'nonce'    => wp_create_nonce( 'interior_load_more' ),
+        'ppp'      => 9,
+        'year'     => $year,
+        'term_id'  => $term_id,
+        'view'     => $view,
+        'exclude'  => array_map( 'intval', (array) $featured_ids ),
+    );
+
+    // Ensure main script is registered/enqueued first (by our earlier hook)
+    if ( wp_script_is( 'interior-main', 'enqueued' ) ) {
+        wp_add_inline_script(
+            'interior-main',
+            'window.INTERIOR_LOAD_MORE = ' . wp_json_encode( $config ) . ';',
+            'before'
+        );
+    }
+}, 25 );
