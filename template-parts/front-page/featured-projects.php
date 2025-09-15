@@ -50,13 +50,10 @@ $featured_id = interior_get_featured_project_id();
 ?>
 
 <section id="portfolio" class="py-24 sm:py-32 bg-white">
-
     <div class="container">
+
         <div class="text-center mb-16 sm:mb-20">
-            <span
-                class="button-text inline-block rounded-full bg-gray-100 text-gray-800 border border-gray-200 px-3 py-1.5 mb-6">
-                Our Finest Work
-            </span>
+            <span class="badge badge-muted mb-6">Our Finest Work</span>
             <h2 class="heading-xl text-gray-900 tracking-tight">
                 Masterpieces in <span class="font-normal">Plaster</span>
             </h2>
@@ -67,35 +64,46 @@ $featured_id = interior_get_featured_project_id();
 
         <?php if ($featured_id): ?>
         <?php
-        $subtitle = function_exists('get_field') ? get_field('project_subtitle', $featured_id) : null;
+        $subtitle  = function_exists('get_field') ? get_field('project_subtitle', $featured_id) : null;
         $permalink = get_permalink($featured_id);
       ?>
+
         <!-- Featured block -->
-        <article class="mb-16 sm:mb-20 relative overflow-hidden rounded-2xl">
-            <a href="<?php echo esc_url($permalink); ?>" class="group block relative">
-                <div class="relative">
-                    <div class="aspect-[16/9] w-full overflow-hidden bg-neutral-200">
-                        <?php
-              if (has_post_thumbnail($featured_id)) {
-                echo get_the_post_thumbnail($featured_id, 'large', [
-                  'class' => 'w-full h-full object-cover transition-transform duration-300 group-hover:scale-105',
-                  'loading' => 'eager',
-                ]);
-              } else {
-                echo '<div class="h-full w-full grid place-items-center body-sm text-neutral-500">No image</div>';
-              }
-              ?>
+        <article class="mb-16 sm:mb-20 relative overflow-hidden rounded-xl">
+            <a href="<?php echo esc_url($permalink); ?>" class="group block"
+                aria-label="<?php echo esc_attr(get_the_title($featured_id)); ?>">
+
+                <!-- The ratio box is the positioning context -->
+                <div class="relative ratio-project-main w-full overflow-hidden bg-neutral-200 rounded-xl">
+                    <?php
+        if (has_post_thumbnail($featured_id)) {
+          echo wp_get_attachment_image(
+            get_post_thumbnail_id($featured_id),
+            'full',
+            false,
+            [
+              'class'   => 'absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-105',
+              'loading' => 'eager',
+              'decoding'=> 'async',
+              'sizes'   => '(min-width:1024px) 1200px, 100vw',
+              'alt'     => esc_attr(get_the_title($featured_id)),
+            ]
+          );
+        } else {
+          echo '<div class="absolute inset-0 grid place-items-center body-sm text-neutral-500">No image</div>';
+        }
+      ?>
+                    <!-- Overlay sits in the same box -->
+                    <div
+                        class="absolute inset-0 bg-gradient-to-t from-black/60 via-black/30 to-transparent pointer-events-none">
                     </div>
-                    <div class="absolute inset-0 bg-black/50"></div>
                 </div>
 
+                <!-- Text layer -->
                 <div class="absolute bottom-6 left-6 right-6">
-                    <span
-                        class="button-text inline-block bg-white/10 text-white border border-white/20 backdrop-blur px-3 py-1.5 mb-3">
-                        Featured Project
-                    </span>
+                    <span class="badge badge-glass mb-3">Featured Project</span>
                     <h3 class="heading-lg text-white mb-1"><?php echo esc_html(get_the_title($featured_id)); ?></h3>
-                    <?php if ($subtitle): ?>
+                    <?php if (!empty($subtitle)): ?>
                     <p class="body-base text-white/90"><?php echo esc_html($subtitle); ?></p>
                     <?php endif; ?>
                 </div>
@@ -103,24 +111,24 @@ $featured_id = interior_get_featured_project_id();
         </article>
 
         <?php
-      // Grid of next 3 (exclude featured)
-      $grid_q = new WP_Query([
-        'post_type'           => 'project',
-        'post_status'         => 'publish',
-        'posts_per_page'      => 3,
-        'ignore_sticky_posts' => true,
-        'no_found_rows'       => true,
-        'orderby'             => 'date',
-        'order'               => 'DESC',
-        'post__not_in'        => [$featured_id],
-      ]);
+        // Grid of next 3 (exclude featured)
+        $grid_q = new WP_Query([
+          'post_type'           => 'project',
+          'post_status'         => 'publish',
+          'posts_per_page'      => 3,
+          'ignore_sticky_posts' => true,
+          'no_found_rows'       => true,
+          'orderby'             => 'date',
+          'order'               => 'DESC',
+          'post__not_in'        => [$featured_id],
+        ]);
       ?>
 
         <?php if ($grid_q->have_posts()): ?>
         <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
             <?php while ($grid_q->have_posts()): $grid_q->the_post(); ?>
             <article
-                class="group relative overflow-hidden rounded-2xl border border-black/5 bg-white shadow-sm transition hover:shadow-md">
+                class="group relative overflow-hidden rounded-md border border-black/5 bg-white shadow-sm transition hover:shadow-md">
                 <a href="<?php the_permalink(); ?>" class="block">
                     <div class="aspect-[4/3] overflow-hidden bg-neutral-100">
                         <?php if (has_post_thumbnail()) {
@@ -148,7 +156,7 @@ $featured_id = interior_get_featured_project_id();
         <?php endif; ?>
 
         <?php else: ?>
-        <div class="rounded-2xl border border-black/5 bg-white/70 backdrop-blur p-8 text-center">
+        <div class="rounded-xl border border-black/5 bg-white/70 backdrop-blur p-8 text-center">
             <p class="body-base text-neutral-700">
                 No projects found yet. Add a project in <strong>Projects → Add New</strong>, set a Featured Image,
                 and (optionally) toggle <em>Featured Project?</em>.
@@ -158,9 +166,10 @@ $featured_id = interior_get_featured_project_id();
 
         <div class="text-center mt-14">
             <a href="<?php echo esc_url(get_post_type_archive_link('project')); ?>"
-                class="button-text inline-flex items-center gap-2 rounded-full border border-black/10 bg-gray-900 text-white px-6 py-3 hover:bg-gray-800 transition">
+                class="btn-primary btn-compact btn-anim inline-flex items-center gap-2">
                 View Full Portfolio <span aria-hidden="true">→</span>
             </a>
         </div>
+
     </div>
 </section>

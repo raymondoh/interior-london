@@ -1,3 +1,4 @@
+// src/js/mobile-nav-drawer.js
 export function initMobileNavDrawer() {
   const toggle = document.getElementById("mobile-nav-toggle");
   const shell = document.getElementById("mobile-shell");
@@ -6,6 +7,13 @@ export function initMobileNavDrawer() {
   const closeBtn = document.getElementById("mobile-close");
   const iconOpen = document.getElementById("icon-open");
   const iconClose = document.getElementById("icon-close");
+
+  // Debug
+  console.log("[mobile-nav] init");
+  console.log("[mobile-nav] toggle:", toggle);
+  console.log("[mobile-nav] drawer:", drawer);
+
+  // If the markup isn't present (e.g., desktop only), bail gracefully
   if (!toggle || !shell || !drawer || !backdrop) return;
 
   const isOpen = () => drawer.classList.contains("translate-x-0");
@@ -14,7 +22,7 @@ export function initMobileNavDrawer() {
   };
 
   function setOpen(open) {
-    // overlay shell visibility + pointer events
+    // overlay
     shell.classList.toggle("opacity-100", open);
     shell.classList.toggle("visible", open);
     shell.classList.toggle("opacity-0", !open);
@@ -39,7 +47,7 @@ export function initMobileNavDrawer() {
     toggle.setAttribute("aria-expanded", open ? "true" : "false");
     lockBody(open);
 
-    // Stagger (optional)
+    // Stagger items (optional)
     const items = drawer.querySelectorAll(".mobile-stagger");
     items.forEach((li, idx) => {
       const delay = open ? 100 * (idx + 1) : 0;
@@ -51,12 +59,16 @@ export function initMobileNavDrawer() {
     });
   }
 
+  // Start closed
   setOpen(false);
 
+  // Events
   toggle.addEventListener("click", () => setOpen(!isOpen()));
   backdrop.addEventListener("click", () => setOpen(false));
-  if (closeBtn) closeBtn.addEventListener("click", () => setOpen(false));
+  closeBtn && closeBtn.addEventListener("click", () => setOpen(false));
   drawer.addEventListener("click", e => {
     if (e.target.closest("a")) setOpen(false);
   });
+
+  console.log("[mobile-nav] bound handlers");
 }

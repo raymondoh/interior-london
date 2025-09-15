@@ -21,11 +21,7 @@
     <?php wp_body_open(); ?>
 
     <!-- <header class="bg-white border-b border-gray-100 relative z-50 sticky top-0"> -->
-    <!-- <header class="sticky top-0 z-50
-         bg-white/60 supports-[backdrop-filter]:bg-white/40
-         backdrop-blur-md backdrop-saturate-150
-         border-b border-white/30
-         shadow-sm"> -->
+
     <header id="site-header" class="sticky top-0 z-50
          bg-white border-b border-gray-100 shadow-sm">
 
@@ -68,7 +64,7 @@ $phone_number = interior_get_option('site_phone_number');
 if ($phone_number) :
 ?>
                 <a href="<?php echo esc_url('tel:' . preg_replace('/\s+/', '', $phone_number)); ?>"
-                    class="hidden md:flex bg-gray-900 hover:bg-gray-800 text-white font-light tracking-wide px-4 py-2 transition-all duration-300 hover:scale-105 group rounded-md items-center">
+                    class="hidden md:flex btn-primary btn-compact btn-anim items-center group">
                     <svg class="w-4 h-4 mr-3 group-hover:rotate-12 transition-transform duration-300"
                         viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                         <path
@@ -76,6 +72,7 @@ if ($phone_number) :
                     </svg>
                     Call Now
                 </a>
+
                 <?php endif; ?>
 
                 <!-- Mobile Menu Button -->
@@ -98,5 +95,9 @@ if ($phone_number) :
         </div>
     </header>
 
-    <!-- Mobile overlay + drawer -->
-    <?php get_template_part('template-parts/navigation-mobile'); ?>
+    <!-- BEGIN mobile nav include -->
+    <?php 
+  error_log('Loading navigation-mobile.php from header.php'); 
+  get_template_part('template-parts/components/navigation-mobile'); 
+?>
+    <!-- END mobile nav include -->

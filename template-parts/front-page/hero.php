@@ -19,7 +19,8 @@ if ($slides_query->have_posts()) {
 wp_reset_postdata(); ?>
 
 <?php if (!empty($slides_data)) : ?>
-<section class="relative h-[90vh] lg:h-screen overflow-hidden" id="hero-slider-section">
+<!-- <section class="relative h-[90vh] lg:h-screen overflow-hidden" id="hero-slider-section"> -->
+<section class="relative hero-h overflow-hidden" id="hero-slider-section" id="hero-slider-section">
     <!-- Slides (BG images) -->
     <div class="relative w-full h-full">
         <?php foreach ($slides_data as $index => $slide) :
@@ -103,11 +104,10 @@ wp_reset_postdata(); ?>
                     <?php echo esc_html($paragraph); ?>
                 </p>
                 <?php endif; ?>
-
                 <!-- Bottom-left CTAs -->
                 <div class="flex flex-col sm:flex-row gap-4 sm:gap-6">
                     <a id="hero-cta-primary" href="<?php echo esc_url($slides_data[0]['primary_url']); ?>"
-                        class="bg-white text-gray-900 hover:bg-gray-100 font-light tracking-wide px-8 py-3 lg:px-8 lg:py-2 transition-all duration-300 hover:scale-105 group inline-flex items-center justify-center rounded-md text-sm sm:text-base">
+                        class="btn-light btn-anim inline-flex items-center justify-center">
                         <?php echo esc_html($slides_data[0]['primary_text']); ?>
                         <span class="ml-3 inline-block group-hover:translate-x-1 transition-transform duration-300">
                             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none"
@@ -120,10 +120,12 @@ wp_reset_postdata(); ?>
                     </a>
 
                     <a id="hero-cta-secondary" href="<?php echo esc_url($slides_data[0]['secondary_url']); ?>"
-                        class="border border-white text-white hover:bg-white hover:text-gray-900 bg-transparent font-light tracking-wide px-8 py-3 lg:px-10 lg:py-4 transition-all duration-300 hover:scale-105 inline-flex items-center justify-center rounded-md text-sm sm:text-base">
+                        class="btn-glass btn-anim inline-flex items-center justify-center">
                         <?php echo esc_html($slides_data[0]['secondary_text']); ?>
                     </a>
                 </div>
+
+
             </div>
         </div>
     </div>

@@ -109,27 +109,29 @@ if (empty($images)) {
                             </p>
                         </div>
                     </div>
-
                     <div class="mt-10">
                         <a href="<?php echo esc_url(get_post_type_archive_link('project')); ?>"
-                            class="button-text inline-flex items-center gap-2 rounded-full bg-gray-900 text-white px-6 py-3 hover:bg-gray-800 transition">
+                            class="btn-primary btn-compact btn-anim inline-flex items-center gap-2">
                             ← <?php esc_html_e('Back to Portfolio','interior'); ?>
                         </a>
                     </div>
+
                 </div>
 
                 <!-- Gallery -->
+                <!-- Gallery -->
                 <div class="relative">
                     <?php if (!empty($images)): ?>
-                    <div id="pjx-gallery" class="relative overflow-hidden aspect-[4/5] bg-neutral-100 rounded-xl">
+                    <div id="pjx-gallery" class="relative overflow-hidden ratio-project-main bg-neutral-100 rounded-md">
                         <?php foreach ($images as $index => $img_id): ?>
                         <?php
-                  $src = wp_get_attachment_image_url($img_id, 'large');
-                  $alt = get_post_meta($img_id, '_wp_attachment_image_alt', true) ?: $title;
-                ?>
+          $src = wp_get_attachment_image_url($img_id, 'x-large') ?: wp_get_attachment_image_url($img_id, 'large');
+          $alt = get_post_meta($img_id, '_wp_attachment_image_alt', true) ?: $title;
+        ?>
                         <img src="<?php echo esc_url($src); ?>" alt="<?php echo esc_attr($alt); ?>"
                             data-index="<?php echo esc_attr($index); ?>"
-                            class="pjx-slide absolute inset-0 w-full h-full object-cover transition-opacity duration-300 <?php echo $index === 0 ? 'opacity-100' : 'opacity-0'; ?>">
+                            class="pjx-slide absolute inset-0 w-full h-full object-cover transition-opacity duration-300 <?php echo $index === 0 ? 'opacity-100' : 'opacity-0'; ?>"
+                            loading="<?php echo $index === 0 ? 'eager' : 'lazy'; ?>" decoding="async">
                         <?php endforeach; ?>
 
                         <!-- Controls -->
@@ -160,11 +162,12 @@ if (empty($images)) {
                         <?php endforeach; ?>
                     </div>
                     <?php else: ?>
-                    <div class="aspect-[4/5] bg-neutral-100 rounded-xl grid place-items-center text-neutral-500">
+                    <div class="ratio-project-main bg-neutral-100 rounded-xl grid place-items-center text-neutral-500">
                         <?php esc_html_e('No images uploaded yet.','interior'); ?>
                     </div>
                     <?php endif; ?>
                 </div>
+
             </div>
         </div>
     </section>
@@ -239,34 +242,90 @@ if ($overview) {
                 </p>
             </div>
 
-            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-                <?php while ($rel_q->have_posts()): $rel_q->the_post(); ?>
-                <article
-                    class="group bg-white overflow-hidden rounded-2xl border border-black/5 shadow-sm hover:shadow-md transition">
-                    <a href="<?php the_permalink(); ?>" class="block">
-                        <div class="aspect-[4/3] overflow-hidden bg-neutral-100">
-                            <?php if ( has_post_thumbnail() ) {
-                    the_post_thumbnail('project-card', ['class'=>'w-full h-full object-cover transition-transform duration-500 group-hover:scale-110']);
-                  } else {
-                    echo '<div class="h-full w-full grid place-items-center body-sm text-neutral-500">No image</div>';
-                  } ?>
+            <?php if ( $rel_q->have_posts() ): ?>
+            <div class="relative">
+                <!-- Slider -->
+                <div class="swiper overflow-visible pb-14 swiper-stretch" id="similar-projects-swiper">
+                    <div class="swiper-wrapper">
+                        <?php while ($rel_q->have_posts()): $rel_q->the_post(); ?>
+                        <div class="swiper-slide">
+                            <article
+                                class="card-equal bg-white overflow-hidden rounded-md border border-black/5 shadow-sm hover:shadow-md transition">
+                                <a href="<?php the_permalink(); ?>" class="flex flex-col h-full">
+                                    <div class="aspect-[4/3] overflow-hidden bg-neutral-100">
+                                        <?php
+              if ( has_post_thumbnail() ) {
+                the_post_thumbnail('project-card', [
+                  'class' => 'w-full h-full object-cover transition-transform duration-500 group-hover:scale-110'
+                ]);
+              } else {
+                echo '<div class="h-full w-full grid place-items-center body-sm text-neutral-500">No image</div>';
+              }
+              ?>
+                                    </div>
+
+                                    <div class="card-equal-body">
+                                        <h3 class="heading-md text-gray-900 mb-2 card-title-clamp"><?php the_title(); ?>
+                                        </h3>
+                                        <?php
+                $sub = function_exists('get_field') ? get_field('project_subtitle') : '';
+                if ($sub) {
+                  echo '<p class="body-base text-neutral-700 mb-4 card-subtitle-clamp card-subtitle-minh">'. esc_html($sub) .'</p>';
+                } else {
+                  // keep heights consistent when no subtitle
+                  echo '<p class="body-base text-neutral-700 mb-4 card-subtitle-clamp card-subtitle-minh">&nbsp;</p>';
+                }
+              ?>
+                                        <span
+                                            class="button-text mt-auto inline-flex items-center gap-2 text-neutral-900">
+                                            <?php esc_html_e('View project','interior'); ?> →
+                                        </span>
+                                    </div>
+                                </a>
+                            </article>
                         </div>
-                        <div class="p-6">
-                            <h3 class="heading-md text-gray-900 mb-2"><?php the_title(); ?></h3>
-                            <?php
-                    $sub = function_exists('get_field') ? get_field('project_subtitle') : '';
-                    if ($sub) echo '<p class="body-base text-neutral-700">' . esc_html($sub) . '</p>';
-                  ?>
-                            <span class="button-text mt-4 inline-flex items-center gap-2 text-neutral-900">
-                                <?php esc_html_e('View project','interior'); ?> →
-                            </span>
-                        </div>
-                    </a>
-                </article>
-                <?php endwhile; wp_reset_postdata(); ?>
+                        <?php endwhile; wp_reset_postdata(); ?>
+                    </div>
+
+                    <div class="swiper-pagination"></div>
+                </div>
+
+
+
+                <!-- No-JS fallback (hidden when JS is available) -->
+                <noscript>
+                    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mt-8">
+                        <?php
+            // Re-run a tiny loop (or reuse $rel_q before resetting if you prefer)
+            $fallback = new WP_Query($rel_q->query_vars);
+            while ($fallback->have_posts()): $fallback->the_post(); ?>
+                        <article
+                            class="group bg-white overflow-hidden rounded-md border border-black/5 shadow-sm hover:shadow-md transition">
+                            <a href="<?php the_permalink(); ?>" class="block">
+                                <div class="aspect-[4/3] overflow-hidden bg-neutral-100">
+                                    <?php if ( has_post_thumbnail() ) {
+                      the_post_thumbnail('project-card', ['class'=>'w-full h-full object-cover']);
+                    } else {
+                      echo '<div class="h-full w-full grid place-items-center body-sm text-neutral-500">No image</div>';
+                    } ?>
+                                </div>
+                                <div class="p-6">
+                                    <h3 class="heading-md text-gray-900 mb-2"><?php the_title(); ?></h3>
+                                </div>
+                            </a>
+                        </article>
+                        <?php endwhile; wp_reset_postdata(); ?>
+                    </div>
+                </noscript>
             </div>
+            <?php else: ?>
+            <div class="rounded-2xl border border-black/5 bg-white/70 backdrop-blur p-10 text-center">
+                <p class="body-base text-neutral-700"><?php esc_html_e('No similar projects found.','interior'); ?></p>
+            </div>
+            <?php endif; ?>
         </div>
     </section>
+
     <?php endif; ?>
 
     <?php get_template_part('template-parts/cta'); ?>

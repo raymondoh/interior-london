@@ -107,7 +107,7 @@ add_action( 'wp_enqueue_scripts', function () {
     // Build context for the script
     $term         = is_tax( 'project_category' ) ? get_queried_object() : null;
     $term_id      = $term ? (int) $term->term_id : 0;
-    $year         = isset( $_GET['year'] ) ? sanitize_text_field( $_GET['year'] ) : 'all';
+   
     $view         = ( isset( $_GET['view'] ) && $_GET['view'] === 'list' ) ? 'list' : 'grid';
     $featured_ids = $GLOBALS['interior_featured_ids'] ?? [];
 
@@ -115,7 +115,7 @@ add_action( 'wp_enqueue_scripts', function () {
         'ajax_url' => admin_url( 'admin-ajax.php' ),
         'nonce'    => wp_create_nonce( 'interior_load_more' ),
         'ppp'      => 9,
-        'year'     => $year,
+       
         'term_id'  => $term_id,
         'view'     => $view,
         'exclude'  => array_map( 'intval', (array) $featured_ids ),

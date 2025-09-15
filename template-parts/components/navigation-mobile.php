@@ -1,3 +1,6 @@
+<?php error_log('navigation-mobile.php is being executed'); ?>
+<!-- NAV MOBILE TEMPLATE START -->
+
 <div id="mobile-shell"
     class="fixed inset-0 z-40 md:hidden opacity-0 invisible transition-opacity duration-500 ease-in-out pointer-events-none">
     <!-- Backdrop -->
@@ -44,8 +47,7 @@
 
             <!-- Drawer CTA -->
             <div class="p-6 border-t border-gray-100">
-                <a href="tel:+"
-                    class="w-full bg-gray-900 hover:bg-gray-800 text-white font-light tracking-wide py-4 text-lg transition-all duration-300 group rounded-md inline-flex items-center justify-center">
+                <a href="tel:+" class="btn-primary btn-large btn-anim w-full flex items-center justify-center group">
                     <svg class="w-5 h-5 mr-3 group-hover:rotate-12 transition-transform duration-300"
                         viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                         <path
@@ -53,7 +55,10 @@
                     </svg>
                     Call Now
                 </a>
+
             </div>
         </div>
     </aside>
 </div>
+<!-- NAV MOBILE TEMPLATE END -->
+<?php error_log('navigation-mobile.php finished rendering'); ?>

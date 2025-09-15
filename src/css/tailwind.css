@@ -1,21 +1,43 @@
 @import "tailwindcss";
 
-/* ----- Design tokens / fonts ----- */
+/*==============================================
+// 0. Custom Utilities (for reuse in @apply)
+//==============================================*/
+
+@utility button-text {
+  @apply font-sans text-sm font-normal tracking-wide;
+}
+
+@utility btn-base {
+  @apply inline-flex items-center justify-center rounded-full px-6 py-3 transition-transform duration-300;
+}
+
+@utility heading-md {
+  @apply font-sans text-2xl font-normal leading-normal;
+}
+
+/*==============================================
+// 1. Design Tokens & Base Styles
+//==============================================*/
+
 :root {
   --font-geist-sans: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial, "Noto Sans",
     "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
   --font-geist-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
 }
 
-/* Base */
 @layer base {
   body {
     @apply antialiased bg-white text-gray-800;
   }
 }
 
-/* Components (your helpers from the stylesheet you shared) */
+/*==============================================
+// 2. Components Layer
+//==============================================*/
+
 @layer components {
+  /* ----- Typography ----- */
   .font-sans {
     font-family: var(--font-geist-sans);
   }
@@ -24,100 +46,374 @@
   }
 
   .heading-hero {
-    font-family: var(--font-geist-sans);
-    font-size: 3.75rem;
-    font-weight: 300;
-    line-height: 1.1;
-    letter-spacing: -0.025em;
+    @apply font-sans text-6xl font-light leading-tight tracking-tight;
   }
   .heading-xl {
-    font-family: var(--font-geist-sans);
-    font-size: 2.25rem;
-    font-weight: 300;
-    line-height: 1.2;
+    @apply font-sans text-4xl font-light leading-snug;
   }
   .heading-lg {
-    font-family: var(--font-geist-sans);
-    font-size: 1.875rem;
-    font-weight: 300;
-    line-height: 1.3;
+    @apply font-sans text-3xl font-light leading-relaxed;
   }
   .heading-md {
-    font-family: var(--font-geist-sans);
-    font-size: 1.5rem;
-    font-weight: 400;
-    line-height: 1.4;
+    @apply heading-md;
   }
 
   .body-lg {
-    font-family: var(--font-geist-sans);
-    font-size: 1.125rem;
-    font-weight: 300;
-    line-height: 1.6;
+    @apply font-sans text-lg font-light leading-relaxed;
   }
   .body-base {
-    font-family: var(--font-geist-sans);
-    font-size: 1rem;
-    font-weight: 300;
-    line-height: 1.5;
+    @apply font-sans text-base font-light leading-normal;
   }
   .body-sm {
-    font-family: var(--font-geist-sans);
-    font-size: 0.875rem;
-    font-weight: 300;
-    line-height: 1.4;
+    @apply font-sans text-sm font-light leading-tight;
   }
 
-  .nav-link {
-    font-family: var(--font-geist-sans);
-    font-size: 0.875rem;
-    font-weight: 300;
-    letter-spacing: 0.025em;
-    text-transform: capitalize;
-  }
   .button-text {
-    font-family: var(--font-geist-sans);
-    font-size: 0.875rem;
-    font-weight: 400;
-    letter-spacing: 0.025em;
+    @apply button-text;
+  }
+  /* Reusable hover animation */
+  .btn-anim {
+    @apply transition-transform duration-300 will-change-transform;
   }
 
   .caption {
-    font-family: var(--font-geist-sans);
-    font-size: 0.75rem;
-    font-weight: 400;
-    line-height: 1.3;
+    @apply font-sans text-xs font-normal leading-tight;
     color: oklch(0.556 0 0);
   }
 
-  /* Small helper */
+  /* ----- Layout & Spacing ----- */
   .container {
     @apply max-w-7xl mx-auto px-6 lg:px-12;
   }
-}
+  .section {
+    @apply py-24 sm:py-32;
+  }
+  .section-sm {
+    @apply py-16 sm:py-20;
+  }
+  .section-lg {
+    @apply py-32 sm:py-40;
+  }
+  .section-hero {
+    @apply pt-28 sm:pt-36 pb-16 sm:pb-24;
+  }
+  .section-header {
+    @apply text-center mb-16 sm:mb-20;
+  }
 
-/* Utilities for the hero controls */
-@layer utilities {
-  .hero-dot-active {
-    transform: scale(1.2);
-    background-color: rgba(255, 255, 255, 1);
+  .stack-6 > * + * {
+    @apply mt-6;
   }
-  .hero-dot {
-    width: 10px;
-    height: 10px;
-    border-radius: 9999px;
-    background-color: rgba(255, 255, 255, 0.6);
+  .stack-8 > * + * {
+    @apply mt-8;
   }
-}
-@layer components {
-  /* Desktop menu items get underline when active text-gray-900 */
+  .stack-12 > * + * {
+    @apply mt-12;
+  }
+
+  /* ----- Navigation ----- */
+  .nav-link {
+    @apply font-sans text-sm font-light tracking-wide capitalize text-gray-600 hover:text-gray-900;
+  }
   .menu .current-menu-item > a > .nav-link,
   .menu .current_page_item > a > .nav-link {
     @apply border-b-2 border-gray-900 pb-1;
   }
 
-  /* Default desktop link style */
-  .nav-link {
-    @apply font-light tracking-wide text-gray-600 hover:text-gray-900;
+  /* ----- Buttons ----- */
+  .btn {
+    @apply btn-base button-text;
   }
+
+  /* Button System */
+  .btn-primary {
+    @apply bg-gray-900 hover:bg-gray-800 text-white font-light tracking-wide px-10 py-4 transition-all duration-300 hover:scale-105 rounded-md;
+  }
+
+  .btn-secondary {
+    @apply border border-gray-900 text-gray-900 hover:bg-gray-900 hover:text-white bg-transparent font-light tracking-wide px-10 py-4 transition-all duration-300 hover:scale-105 rounded-md;
+  }
+
+  .btn-light {
+    @apply bg-white text-gray-900 hover:bg-gray-100 font-light tracking-wide px-10 py-4 transition-all duration-300 hover:scale-105 rounded-md;
+  }
+
+  .btn-glass {
+    @apply bg-white/10 hover:bg-white/20 text-white border border-white/20 backdrop-blur-sm font-light tracking-wide px-8 py-3 transition-all duration-300 hover:scale-105 rounded-md;
+  }
+
+  .btn-compact {
+    @apply px-6 py-2 text-sm;
+  }
+
+  .btn-large {
+    @apply px-12 py-5 text-lg;
+  }
+
+  /* ----- Badges & Chips ----- */
+  .badge {
+    @apply inline-block rounded-full border px-3 py-1.5 button-text;
+  }
+  .badge-muted {
+    @apply border-gray-200 bg-gray-100 text-gray-800;
+  }
+  .badge-dark {
+    @apply border-gray-800 bg-gray-900 text-white;
+  }
+  .badge-glass {
+    @apply border-white/20 bg-white/10 text-white backdrop-blur;
+  }
+
+  .chip {
+    @apply btn-base border font-light;
+  }
+  .chip-active {
+    @apply border-gray-900 bg-gray-900 text-white;
+  }
+  .chip-idle {
+    @apply border-gray-300 text-gray-700 hover:bg-gray-100;
+  }
+
+  /* ----- Cards ----- */
+  .card-project {
+    /* NOTE: cannot @apply `group` in v4; using hover rules below */
+    @apply overflow-hidden rounded-2xl border border-black/5 bg-white shadow-sm transition hover:shadow-md;
+  }
+  .card-media {
+    @apply relative aspect-[4/3] overflow-hidden bg-neutral-100;
+  }
+  .card-media img {
+    @apply h-full w-full object-cover transition-transform duration-500;
+  }
+  .card-body {
+    @apply p-6;
+  }
+  .card-eyebrow {
+    @apply text-xs font-light uppercase tracking-wide text-gray-500;
+  }
+  .card-title {
+    @apply font-sans text-2xl font-normal leading-normal mb-2 text-gray-900;
+  }
+  .card-meta {
+    @apply text-sm text-gray-500;
+  }
+  .card-desc {
+    @apply text-sm text-gray-700;
+  }
+
+  .card-project-list {
+    /* NOTE: cannot @apply `group` in v4; using hover rules below */
+    @apply overflow-hidden rounded-2xl border border-black/5 bg-white shadow-sm transition hover:shadow-md;
+  }
+  .card-project-list .media {
+    @apply relative w-full aspect-[4/3] overflow-hidden bg-neutral-100 md:w-80 md:aspect-square;
+  }
+  .card-project-list .media img {
+    @apply h-full w-full object-cover transition-transform duration-500;
+  }
+  .card-project-list .content {
+    @apply flex-1 p-6;
+  }
+  /* Put team slider dots below the card, not overlaying it */
+  #about-team-swiper .swiper-pagination.swiper-pagination-static {
+    position: static !important; /* override Swiper's absolute */
+    margin-top: 1rem; /* space under the slide */
+  }
+
+  /* Optional: nicer bullets */
+  #about-team-swiper .swiper-pagination-bullet {
+    width: 8px;
+    height: 8px;
+    opacity: 0.5;
+    background: rgb(156 163 175); /* gray-400 */
+  }
+  #about-team-swiper .swiper-pagination-bullet-active {
+    opacity: 1;
+    background: rgb(17 24 39); /* gray-900 */
+  }
+  /* Similar Projects slider: make slides equal height */
+  #similar-projects-swiper .swiper-wrapper {
+    align-items: stretch;
+  }
+  #similar-projects-swiper .swiper-slide {
+    height: auto;
+    display: flex; /* so the h-full article inside can stretch */
+  }
+
+  /* Pagination: out of absolute positioning + extra spacing */
+  /* Use !important to overrule swiper-bundle.css at all breakpoints */
+  #similar-projects-swiper .swiper-pagination {
+    position: static !important;
+    inset: auto !important;
+    transform: none !important;
+    margin-top: 2.75rem; /* more than team if needed */
+    text-align: center;
+  }
+
+  #similar-projects-swiper .swiper-pagination-bullet {
+    width: 10px;
+    height: 10px;
+    margin: 0 6px !important;
+    opacity: 0.5;
+    background: rgb(156 163 175); /* gray-400 */
+    transition: all 0.3s;
+  }
+  #similar-projects-swiper .swiper-pagination-bullet-active {
+    opacity: 1;
+    background: rgb(17 24 39); /* gray-900 */
+    transform: scale(1.2);
+  }
+  /* Equal height slides only inside Related Projects swiper */
+  #similar-projects-swiper .swiper-wrapper {
+    align-items: stretch;
+  }
+  #similar-projects-swiper .swiper-slide {
+    height: auto;
+  }
+
+  /* Equal-height card internals */
+  #similar-projects-swiper .card-equal {
+    @apply h-full flex flex-col;
+  }
+  #similar-projects-swiper .card-equal-body {
+    @apply p-6 flex-1 flex flex-col;
+  }
+
+  /* Clamps (safe globally or scoped if you prefer) */
+  .card-title-clamp {
+    @apply line-clamp-2;
+  }
+  .card-subtitle-clamp {
+    @apply line-clamp-3;
+  }
+
+  /* Optional: enforce consistent subtitle block height */
+  #similar-projects-swiper .card-subtitle-minh {
+    min-height: 4.5rem; /* 3 lines of ~1.5rem */
+  }
+}
+
+/*==============================================
+// 3. Utilities Layer
+//==============================================*/
+
+@layer utilities {
+  .hero-h {
+    height: 90svh; /* mobile-first, stable viewport height */
+  }
+  @screen sm {
+    .hero-h {
+      height: 82svh;
+    }
+  }
+  @screen md {
+    .hero-h {
+      height: 76svh;
+    }
+  }
+  @screen lg {
+    .hero-h {
+      height: 68svh;
+    }
+  }
+  @screen xl {
+    .hero-h {
+      height: 62svh;
+    }
+  }
+  @screen 2xl {
+    .hero-h {
+      height: 56svh;
+    }
+  }
+
+  .hero-dot {
+    @apply h-[10px] w-[10px] rounded-full bg-white/60;
+  }
+  .hero-dot-active {
+    @apply scale-125 bg-white;
+  }
+  .ratio-project-main {
+    /* taller on phones, wider on desktop */
+    @apply aspect-[4/5] sm:aspect-[3/4] lg:aspect-[16/10];
+  }
+  /* assuming ~1.5rem line-height for body-base; 3 lines ≈ 4.5rem */
+  .card-subtitle-minh {
+    min-height: 4.5rem;
+  }
+  /* Only affect the Related Projects slider */
+  #similar-projects-swiper .swiper-wrapper {
+    align-items: stretch;
+  }
+  #similar-projects-swiper .swiper-slide {
+    display: flex; /* allow children to stretch */
+    height: auto; /* adopt tallest height */
+  }
+
+  /* Equal-height card internals */
+  #similar-projects-swiper .card-equal {
+    @apply h-full w-full flex flex-col;
+  }
+  #similar-projects-swiper .card-equal-body {
+    @apply p-6 flex-1 flex flex-col;
+  }
+
+  /* Clamp + fixed bucket for subtitle so 2/3 lines still align */
+  .card-title-clamp {
+    @apply line-clamp-2;
+  }
+  .card-subtitle-clamp {
+    @apply line-clamp-3;
+  }
+
+  /* Subtitle bucket: 3 lines of body-base (~1.5rem line-height) = 4.5rem */
+  #similar-projects-swiper .card-subtitle-minh {
+    min-height: 4.5rem;
+  }
+
+  /* If your body-base line-height differs on larger screens, tighten here: */
+  @screen lg {
+    #similar-projects-swiper .card-subtitle-minh {
+      min-height: 4.5rem;
+    }
+  }
+  @screen md {
+    .card-subtitle-minh {
+      min-height: 4.5rem;
+    }
+  }
+}
+
+/*==============================================
+// 4. Plain CSS for hover effects (replacing group-hover)
+//==============================================*/
+
+/* Scale image on card hover */
+.card-project:hover .card-media img,
+.card-project-list:hover .media img {
+  transform: scale(1.1);
+}
+
+/* Subtle title emphasis on hover */
+.card-project:hover .card-title,
+.card-project-list:hover .card-title {
+  opacity: 0.9;
+}
+
+/* Load-more button */
+.load-more-btn {
+  @apply rounded-full border border-black/10 px-6 py-3 hover:bg-gray-100 transition;
+}
+
+/* Plain CSS for state (v4-friendly, no variants in @apply) */
+.btn-anim:hover {
+  transform: translateY(-1px) scale(1.02);
+}
+.btn-anim:active {
+  transform: translateY(0) scale(1);
+}
+.btn-anim:focus-visible {
+  outline: none; /* remove default */
+  box-shadow: 0 0 0 3px rgba(17, 24, 39, 0.2); /* subtle focus ring */
+  border-radius: 9999px; /* match rounded-full buttons */
 }

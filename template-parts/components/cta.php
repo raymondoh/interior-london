@@ -19,18 +19,17 @@ $cta = interior_get_cta(get_queried_object_id());
 
         <div class="mt-12 flex flex-col sm:flex-row gap-6 justify-center">
             <?php if (!empty($cta['primary_text']) && !empty($cta['primary_url'])): ?>
-            <a href="<?php echo esc_url($cta['primary_url']); ?>"
-                class="button-text inline-flex items-center justify-center rounded-full bg-gray-900 text-white px-8 py-3 hover:bg-gray-800 transition">
+            <a href="<?php echo esc_url($cta['primary_url']); ?>" class="btn-primary btn-anim">
                 <?php echo esc_html($cta['primary_text']); ?>
             </a>
             <?php endif; ?>
 
             <?php if (!empty($cta['secondary_text']) && !empty($cta['secondary_url'])): ?>
-            <a href="<?php echo esc_url($cta['secondary_url']); ?>"
-                class="button-text inline-flex items-center justify-center rounded-full border border-gray-900 text-gray-900 px-8 py-3 hover:bg-gray-900 hover:text-white transition">
+            <a href="<?php echo esc_url($cta['secondary_url']); ?>" class="btn-secondary btn-anim">
                 <?php echo esc_html($cta['secondary_text']); ?>
             </a>
             <?php endif; ?>
         </div>
+
     </div>
 </section>
