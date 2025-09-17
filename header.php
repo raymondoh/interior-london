@@ -96,8 +96,7 @@ if ($phone_number) :
     </header>
 
     <!-- BEGIN mobile nav include -->
-    <?php 
-  error_log('Loading navigation-mobile.php from header.php'); 
-  get_template_part('template-parts/components/navigation-mobile'); 
-?>
+    <?php
+    get_template_part('template-parts/components/navigation-mobile');
+    ?>
     <!-- END mobile nav include -->
