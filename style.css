@@ -1,0 +1,217 @@
+/*
+Theme Name: Interior London
+Theme URI: https://example.com/interior-london
+Author: Interior Studio
+Author URI: https://example.com
+Description: Custom WordPress theme for the Interior London studio featuring Tailwind-powered components and a portfolio-first experience.
+Version: 0.1.0
+Requires at least: 6.0
+Tested up to: 6.6
+Requires PHP: 7.4
+Text Domain: interior
+Tags: custom-menu, custom-logo, portfolio, tailwind
+License: GNU General Public License v2 or later
+License URI: https://www.gnu.org/licenses/gpl-2.0.html
+*/
+
+/*--------------------------------------------------------------
+# Global overrides
+--------------------------------------------------------------*/
+
+html {
+  box-sizing: border-box;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: inherit;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background-color: #ffffff;
+  color: #111827;
+  font-family: var(--font-geist-sans, "Inter", system-ui, -apple-system, "Segoe UI", sans-serif);
+  line-height: 1.6;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+a:hover,
+a:focus {
+  text-decoration: underline;
+}
+
+img,
+svg,
+video,
+canvas,
+iframe,
+embed,
+object {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+figure {
+  margin: 0;
+}
+
+.wp-caption {
+  margin-bottom: 1.5rem;
+  max-width: 100%;
+}
+
+.wp-caption-text,
+.gallery-caption {
+  margin-top: 0.75rem;
+  color: #4b5563;
+  font-size: 0.875rem;
+  line-height: 1.4;
+}
+
+.wp-block-image {
+  margin: 0;
+}
+
+.alignleft {
+  float: left;
+  margin-right: 2rem;
+}
+
+.alignright {
+  float: right;
+  margin-left: 2rem;
+}
+
+.aligncenter {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
+}
+
+.alignwide {
+  max-width: min(1200px, calc(100% - 3rem));
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.alignfull {
+  width: 100vw;
+  margin-left: calc(50% - 50vw);
+  margin-right: calc(50% - 50vw);
+}
+
+.wp-block-group.alignfull > * {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.wp-block-table,
+.wp-block-calendar table,
+.wp-block-media-text,
+.wp-block-group,
+.wp-block-cover,
+.wp-block-pullquote {
+  max-width: 100%;
+}
+
+pre,
+code,
+kbd,
+samp {
+  font-family: var(--font-geist-mono, "SFMono-Regular", Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace);
+}
+
+pre {
+  padding: 1.5rem;
+  background-color: #f3f4f6;
+  overflow-x: auto;
+  border-radius: 0.75rem;
+}
+
+blockquote {
+  margin: 2.5rem auto;
+  padding-left: 1.5rem;
+  border-left: 3px solid #111827;
+  font-style: italic;
+  color: #1f2937;
+}
+
+.screen-reader-text {
+  position: absolute !important;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  clip-path: inset(50%);
+  border: 0;
+  white-space: nowrap;
+}
+
+.screen-reader-text:focus {
+  position: static !important;
+  width: auto;
+  height: auto;
+  padding: 0.75rem 1rem;
+  margin: 0;
+  overflow: visible;
+  clip: auto;
+  clip-path: none;
+  background: #111827;
+  color: #ffffff;
+  border-radius: 0.5rem;
+  z-index: 1000;
+}
+
+.clearfix::after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+table {
+  border-collapse: collapse;
+  width: 100%;
+}
+
+table th,
+table td {
+  padding: 0.75rem 1rem;
+  border-bottom: 1px solid #e5e7eb;
+  text-align: left;
+}
+
+input,
+select,
+textarea,
+button {
+  font: inherit;
+}
+
+input,
+select,
+textarea {
+  border-radius: 0.75rem;
+}
+
+button,
+input[type="submit"],
+input[type="button"],
+input[type="reset"] {
+  cursor: pointer;
+}
+
+:focus {
+  outline: 2px solid #111827;
+  outline-offset: 2px;
+}
