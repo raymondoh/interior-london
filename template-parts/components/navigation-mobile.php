@@ -1,4 +1,6 @@
-<?php error_log('navigation-mobile.php is being executed'); ?>
+<?php
+$phone_number = interior_get_option('site_phone_number');
+?>
 <!-- NAV MOBILE TEMPLATE START -->
 
 <div id="mobile-shell"
@@ -47,7 +49,9 @@
 
             <!-- Drawer CTA -->
             <div class="p-6 border-t border-gray-100">
-                <a href="tel:+" class="btn-primary btn-large btn-anim w-full flex items-center justify-center group">
+                <?php if ($phone_number) : ?>
+                <a href="<?php echo esc_url('tel:' . preg_replace('/\s+/', '', $phone_number)); ?>"
+                    class="btn-primary btn-large btn-anim w-full flex items-center justify-center group">
                     <svg class="w-5 h-5 mr-3 group-hover:rotate-12 transition-transform duration-300"
                         viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                         <path
@@ -55,10 +59,9 @@
                     </svg>
                     Call Now
                 </a>
-
+                <?php endif; ?>
             </div>
         </div>
     </aside>
 </div>
 <!-- NAV MOBILE TEMPLATE END -->
-<?php error_log('navigation-mobile.php finished rendering'); ?>
